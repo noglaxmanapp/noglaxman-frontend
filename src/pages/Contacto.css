@@ -1,0 +1,182 @@
+/* Inicio de Sección 4 */
+/* 
+.seccion4 {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} */
+
+.contenedor-contactos {
+  min-width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenedor-icon {
+  border-radius: 50%;
+  cursor: pointer;
+  color: #8c8888;
+}
+
+.icon-contacto {
+  font-size: 5vw;
+  margin: 2vw;
+}
+
+.icon-trading {
+  background-color: "none"
+}
+
+.contenedor-icon:hover {
+  color: #fff;
+}
+
+.contenedor-icon:active {
+  opacity: 0.75;
+}
+
+.contenedor-trading:hover {
+  color: #fff;
+  /* background-color: #1877f2; */
+  box-shadow: 0 0 20px #1877f2;
+}
+
+.contenedor-whatsapp:hover {
+  color: #fff;
+  /* background-color: #25d366; */
+  box-shadow: 0 0 20px #25d366;
+}
+
+.contenedor-instagram:hover {
+  color: #fff;
+  /* background-color: #e60073; */
+  box-shadow: 0 0 20px #ff00bb
+}
+
+.contenedor-trading:hover {
+  color: #fff;
+  /* background-color: #1877f2; */
+  box-shadow: 0 0 20px #00d4ff;
+}
+
+.contenedor-email:hover {
+  color: #fff;
+  /* background-color: #d50000; */
+  box-shadow: 0 0 20px #d50000;
+}
+
+.contenedor-linkedin:hover {
+  color: #fff;
+  /* background-color: #0e3c7d; */
+  box-shadow: 0 0 20px #0e3c7d;
+}
+
+.contenedor-github:hover {
+  color: #fff;
+  /* background-color: #333333; */
+  box-shadow: 0 0 20px #333333;
+}
+
+  /* Formulario */
+
+  .formulario-hidden {
+    transform: scale(0);
+  }
+
+  .formulario-gmail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    transition: all 0.4s;
+  }
+  
+  .contenedor-formulario {
+    width: 80%;
+    height: 80%;
+  }
+  
+  .secundario-titulo {
+    margin: 2vh 0;
+  }
+
+  .gmail-correo {
+    color: var(--form-gmail);
+  }
+
+  .contenedor-secundario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .formulario-input,
+  .formulario-textarea {
+    width: 100%;
+    margin: 6px 0;
+    padding: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    box-shadow: 1px 1px 2px var(--form-gmail);
+    border-radius: 8px;
+    opacity: 0.9;
+  }
+  
+  .formulario-label {
+    color: #fff;
+    text-shadow: 2px 2px 2px var(--form-gmail);
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .formulario-textarea {
+    height: 10vh;
+  }
+  
+  .formulario-boton {
+    width: 100%;
+    min-height: 3vh;
+    margin: 8px 0;
+    padding: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: var(--form-gmail);
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+    box-shadow: 1px 1px 3px #b10b0b;
+    border: 1.5px groove #000;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .formulario-input::placeholder,
+  .formulario-textarea::placeholder {
+    font-size: 12px;
+    font-weight: 400;
+  }
+  
+  .formulario-input:focus, .formulario-textarea:focus {
+    outline: 2px solid var(--form-gmail);
+  }
+  
+  .formulario-boton:hover {
+    background-color: #ea0808;
+  }
+  
+  .formulario-boton:active {
+    background-color: #8f0e0e;    
+  }
+
+/* Fin de Sección 4 */
