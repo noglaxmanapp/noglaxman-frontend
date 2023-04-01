@@ -14,7 +14,6 @@ import FormNewAccount from "../components/FormNewAccount";
 import FormCliente from "../components/FormCliente";
 import DetailsAccount from "./DetailsAccount";
 import Swal from "sweetalert2";
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import { API_NOGLAXMAN } from "../utils/config.js";
 
 const Admin = () => {

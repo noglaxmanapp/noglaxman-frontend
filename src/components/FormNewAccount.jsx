@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Error from "./Error";
+import { API_NOGLAXMAN } from "../utils/config";
 
 const FormNewAccount = ({ open, handleClose, client, buscarCuentas }) => {
 
@@ -26,7 +27,7 @@ const FormNewAccount = ({ open, handleClose, client, buscarCuentas }) => {
 
   const createAccount = async () => {
     try{
-        const resolve = await fetch("https://noglaxman.onrender.com/account", {
+        const resolve = await fetch(`${API_NOGLAXMAN}/account`, {
           method: "POST",
           body: JSON.stringify(dataNewAccount),
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},

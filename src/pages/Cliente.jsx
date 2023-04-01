@@ -4,7 +4,6 @@ import {
   Typography,
   AccordionDetails,
   List,
-  ListItem,
   ListItemButton,
   Divider,
 } from "@mui/material";
@@ -18,8 +17,8 @@ import { API_NOGLAXMAN } from "../utils/config.js";
 const Cliente = () => {
   const [accounts, setAccounts] = useState();
   const [summary, setSummary] = useState();
-  const [open, setOpen] = useState(false);
   const { auth } = useAuth();
+  const [accountId, setCurrentAccountId] = useState();
 
   const token = window.localStorage.getItem("token");
 
@@ -33,57 +32,83 @@ const Cliente = () => {
     }
   })
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleChange = (panel) => (event, isExpanded) => {
+    const accountId = panel;
+    setCurrentAccountId(accountId);
     setExpanded(isExpanded ? panel : false);
   };
 
-  const buscarCuentas = async () => {
+  // const buscarCuentas = async () => {
+  //   const dataUser = {
+  //     client_id: auth.client_id,
+  //   };
+  //   const resolve = await fetch(`${API_NOGLAXMAN}/client/accounts`, {
+  //     method: "POST",
+  //     body: JSON.stringify(dataUser),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Baerer ${token}`,
+  //     },
+  //   });
+  //   const data = await resolve.json();
+  //   if (data) {
+  //     setAccounts(data);
+  //   }
+  // };
+
+  // const buscarResumenes = async (account_id) => {
+  //   const dataUser = {
+  //     account_id: account_id,
+  //   };
+  //   const resolve = await fetch(`${API_NOGLAXMAN}/summary/account`, {
+  //     method: "POST",
+  //     body: JSON.stringify(dataUser),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Baerer ${token}`,
+  //     },
+  //   });
+  //   const data = await resolve.json();
+  //   if (data) {
+  //     setSummary(data);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   buscarCuentas();
+  // }, []);
+
+  useEffect(() => {
     const dataUser = {
       client_id: auth.client_id,
     };
-    const resolve = await fetch(`${API_NOGLAXMAN}/client/accounts`, {
-      method: "POST",
-      body: JSON.stringify(dataUser),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Baerer ${token}`,
-      },
-    });
-    const data = await resolve.json();
-    if (data) {
-      setAccounts(data);
-    }
-  };
 
-  const buscarResumenes = async (account_id) => {
-    const dataUser = {
-      account_id: account_id,
-    };
-    const resolve = await fetch(`${API_NOGLAXMAN}/summary/account`, {
+    fetch(`${API_NOGLAXMAN}/client/accounts`, {
       method: "POST",
       body: JSON.stringify(dataUser),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Baerer ${token}`,
       },
-    });
-    const data = await resolve.json();
-    if (data) {
-      setSummary(data);
-    }
-  };
+    })
+    .then(setAccounts)
+  }, [auth, token]);
 
   useEffect(() => {
-    buscarCuentas();
-  }, []);
+    const dataAccount = {
+      account_id: accountId,
+    };
+    fetch(`${API_NOGLAXMAN}/summary/account`, {
+      method: "POST",
+      body: JSON.stringify(dataAccount),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Baerer ${token}`,
+      },
+    })
+    .then(setSummary)
+
+  }, [accountId, token]);
 
   return (
     <div
@@ -120,7 +145,6 @@ const Cliente = () => {
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
-                  onClick={() => buscarResumenes(ac.account_id)}
                 >
                   <Typography sx={{ fontWeight: "bold", color: "#9567a7" }}>
                     {ac.account_id}

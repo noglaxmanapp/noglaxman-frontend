@@ -31,7 +31,7 @@ const Resumenes = () => {
         method: "DELETE",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},
       });
-      const data = await resolve.json();
+      await resolve.json();
     } catch (error) {
       Swal.fire({
         text: `Ocurrió un error`,

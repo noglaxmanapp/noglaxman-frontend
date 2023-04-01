@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography, CircularProgress } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, TextField, CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import Error from "./Error";
 import Swal from "sweetalert2";
+import { API_NOGLAXMAN } from "../utils/config";
 
 function FormCliente({ updateClient, client, open, handleClose, getAllClient }) {
   const [id, setId] = useState("");
@@ -16,7 +17,7 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
   const [error, setError] = useState(false);
 
   useEffect(()=> {
-    if (updateClient) {
+    if (updateClient && client) {
       setId(client.client_id)
       setDni(client.dni)
       setName(client.name)
@@ -24,10 +25,7 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
       setUsername(client.username)
       setPass(client.pass)
     }
-  }, [client])
-
-  useEffect(()=>{
-    if (!updateClient){
+    if (!updateClient) {
       setId("")
       setDni("")
       setName("")
@@ -35,13 +33,13 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
       setUsername("")
       setPass("")
     }
-  }, [updateClient])
+  }, [client, updateClient])
 
   const token = window.localStorage.getItem('token');
 
   const createNewClient = async(newClient) =>{
     try{
-      const resolve = await fetch('https://noglaxman.onrender.com/auth/register',{
+      const resolve = await fetch(`${API_NOGLAXMAN}/auth/register`,{
       method: 'POST',
       body: JSON.stringify(newClient),
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},

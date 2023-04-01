@@ -1,7 +1,6 @@
 import { Typography, Box, Card, TextField, Button, Grid } from "@mui/material";
 import { useState } from "react";
 import Empresas from "./Empresas";
-// import { evaluate } from "mathjs"
 
 const Simulador = () => {
 
@@ -71,7 +70,6 @@ const Simulador = () => {
           sx={{
             color: "#000",
             fontWeight: "bold",
-            fontSize: "35px",
             fontFamily: "'Proza Libre', sans-serif",
             letterSpacing: 2.5,
             mt: "5rem",

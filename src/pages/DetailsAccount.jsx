@@ -1,11 +1,8 @@
 import { List, ListItemButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/system";
 
 const DetailsAccount = ( { ac, buscarCuentas, deleteAccount, cliente_id }) => {
-  const navigate = useNavigate()
 
   const confirmDelete = async (account_id, cliente_id) => {
     await deleteAccount(account_id);

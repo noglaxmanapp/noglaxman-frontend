@@ -3,7 +3,6 @@ import Nosotros from "../pages/Nosotros";
 import Simulador from "../pages/Simulador";
 import InfoCeo from "../pages/InfoCeo";
 import Contacto from "../pages/Contacto";
-import { useEffect } from "react";
 
 const AuthLayout = () => {
 

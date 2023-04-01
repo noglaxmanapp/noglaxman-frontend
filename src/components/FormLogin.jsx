@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { API_NOGLAXMAN } from '../utils/config';
 
 const FormLogin = ({ open, setOpen, handleClose }) => {
   
@@ -28,7 +29,7 @@ const FormLogin = ({ open, setOpen, handleClose }) => {
   const loginClient = async (e) => {
     e.preventDefault()
     try {
-      const resolve = await fetch("https://noglaxman.onrender.com/auth/login", {
+      const resolve = await fetch( `${API_NOGLAXMAN}/auth/login`, {
         method: "POST",
         body: JSON.stringify(dataUser),
         headers: { "Content-Type": "application/json" },
@@ -43,7 +44,7 @@ const FormLogin = ({ open, setOpen, handleClose }) => {
         });
         handleClose()
         setAuth(data.data);
-        const result = await fetch("https://noglaxman.onrender.com/client/role", {
+        const result = await fetch( `${API_NOGLAXMAN}/client/role`, {
           method: "POST",
           body: JSON.stringify({ token: data.tokenSession }),
           headers: {

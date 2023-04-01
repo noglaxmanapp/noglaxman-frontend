@@ -11,9 +11,6 @@ import NotFound from './pages/NotFound';
 import Resumenes from './pages/Resumenes';
 
 function App() {
-  
-  const token = window.localStorage.getItem('token')
-
   return (
     <Router>
       <AuthProvider>

@@ -1,5 +1,3 @@
-import { Box, Card, Typography } from "@mui/material";
-import { flexbox } from "@mui/system";
 import React from "react";
 
 function Error({ children }) {
