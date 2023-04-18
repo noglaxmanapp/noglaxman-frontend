@@ -23,15 +23,28 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const storage = getStorage(app);
-
-export async function uploadFile(file) {
-  const storageRef = ref(storage, v4())
-  const data = await uploadBytes(storageRef, file)
-  const url = await getDownloadURL(storageRef).then(url => url)
-  return [data, url];
+export const getFirebaseApp = () => {
+  try {
+    const configHasValidity = Object.values(firebaseConfig).every(v => v);
+    if (configHasValidity) throw new Error("Error al obtener configuracion de Firebase App");
+    const app = initializeApp(firebaseConfig);
+    if (app) getAuth(app);
+    return app;
+  } catch (error) {
+    console.error("getFirebaseApp", "Error al inicializar Firebase App")
+  }
 }
 
-//const analytics = getAnalytics(app);
+export async function uploadFile(file) {
+  const firebaseApp = getFirebaseApp();
+  const fileData = [];
+
+  if (firebaseApp) {
+    const storage = getStorage(firebaseApp);
+    const storageRef = ref(storage, v4());
+    fileData.push(await uploadBytes(storageRef, file));
+    fileData.push(await getDownloadURL(storageRef).then(url => url));
+  }
+
+  return fileData;
+}
