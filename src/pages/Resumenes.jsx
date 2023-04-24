@@ -63,6 +63,7 @@ const Resumenes = () => {
 
   useEffect(() => {
     buscarResumenes(accountId);
+    // eslint-disable-next-line
   }, [accountId]);
 
   const confirmDelete = async (summary_id, accountId) => {

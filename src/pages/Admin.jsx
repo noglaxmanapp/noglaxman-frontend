@@ -97,6 +97,7 @@ const Admin = () => {
 
   useEffect(() => {
     getAllClient();
+    // eslint-disable-next-line
   }, []);
 
   const buscarCuentas = async (id) => {

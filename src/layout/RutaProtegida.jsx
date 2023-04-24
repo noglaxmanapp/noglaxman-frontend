@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import { API_NOGLAXMAN } from '../utils/config';
+// import Cliente from '../pages/Cliente';
+// import useAuth from '../hooks/useAuth';
 
 const RutaProtegida = () => {
 
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   const [role, setRole] = useState()
   
@@ -17,7 +19,7 @@ const RutaProtegida = () => {
         return
       }
       try {
-        const result = await fetch(`${API_NOGLAXMAN}/client/role`, {
+        const result = await fetch('https://noglaxman.onrender.com/client/role', {
         method: "POST",
         body: JSON.stringify({token:`${token}`}),
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`}
@@ -27,22 +29,27 @@ const RutaProtegida = () => {
           setRole(data)
         }
       } catch (error) {
-        
+        setError(true);
       }
       setLoading(false)
     }
     authUser()
-  }, [token])
+    // eslint-disable-next-line
+  },[])
 
   if (loading){
-    return
+    return <div>Cargando...</div>;
   }
 
   if (!token || token === 'undefined'){
     return <Navigate replace to='/'/>
   }
 
-  if (role.role !== "user"){
+  if (error){
+    return <Navigate replace to='/'/>;
+  }
+
+  if (role && role.role !== "user"){
     return <Navigate replace to ='/admin' />
   }
 
