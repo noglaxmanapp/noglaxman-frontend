@@ -44,6 +44,7 @@ const Nav = () => {
   
   const logOut = () => {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("client_id");
     navigate("/");
   };
 

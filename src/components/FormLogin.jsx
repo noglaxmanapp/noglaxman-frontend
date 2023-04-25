@@ -44,6 +44,7 @@ const FormLogin = ({ open, setOpen, handleClose }) => {
         });
         handleClose()
         setAuth(data.data);
+        window.localStorage.setItem('client_id', data.data.client_id)
         const result = await fetch( `${API_NOGLAXMAN}/client/role`, {
           method: "POST",
           body: JSON.stringify({ token: data.tokenSession }),

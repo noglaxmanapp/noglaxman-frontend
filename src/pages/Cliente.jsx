@@ -17,98 +17,79 @@ import { API_NOGLAXMAN } from "../utils/config.js";
 const Cliente = () => {
   const [accounts, setAccounts] = useState();
   const [summary, setSummary] = useState();
+  const [accountSummaries, setAccountSummaries] = useState({});
+
   const { auth } = useAuth();
-  const [accountId, setCurrentAccountId] = useState();
+
+  const client_id = window.localStorage.getItem('client_id')
 
   const token = window.localStorage.getItem("token");
 
   const [expanded, setExpanded] = useState(false);
 
-  useEffect(()=>{
-    if (window.location.pathname === '/client'){
-      window.onpopstate = e => {
-        window.localStorage.removeItem('token')
+  useEffect(() => {
+    if (window.location.pathname === "/client") {
+      window.onpopstate = (e) => {
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("client_id");
       };
     }
-  })
+  }, []);
 
   const handleChange = (panel) => (event, isExpanded) => {
-    const accountId = panel;
-    setCurrentAccountId(accountId);
     setExpanded(isExpanded ? panel : false);
   };
 
-  // const buscarCuentas = async () => {
-  //   const dataUser = {
-  //     client_id: auth.client_id,
-  //   };
-  //   const resolve = await fetch(`${API_NOGLAXMAN}/client/accounts`, {
-  //     method: "POST",
-  //     body: JSON.stringify(dataUser),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Baerer ${token}`,
-  //     },
-  //   });
-  //   const data = await resolve.json();
-  //   if (data) {
-  //     setAccounts(data);
-  //   }
-  // };
-
-  // const buscarResumenes = async (account_id) => {
-  //   const dataUser = {
-  //     account_id: account_id,
-  //   };
-  //   const resolve = await fetch(`${API_NOGLAXMAN}/summary/account`, {
-  //     method: "POST",
-  //     body: JSON.stringify(dataUser),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Baerer ${token}`,
-  //     },
-  //   });
-  //   const data = await resolve.json();
-  //   if (data) {
-  //     setSummary(data);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   buscarCuentas();
-  // }, []);
-
-  useEffect(() => {
+  const buscarCuentas = async () => {
     const dataUser = {
-      client_id: auth.client_id,
+      client_id: client_id,
     };
-
-    fetch(`${API_NOGLAXMAN}/client/accounts`, {
+    const resolve = await fetch(`${API_NOGLAXMAN}/client/accounts`, {
       method: "POST",
       body: JSON.stringify(dataUser),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Baerer ${token}`,
       },
-    })
-    .then(setAccounts)
-  }, [auth, token]);
+    });
+    const data = await resolve.json();
+    if (data) {
+      setAccounts(data);
+    }
+  };
 
-  useEffect(() => {
-    const dataAccount = {
-      account_id: accountId,
+const buscarResumenes = async (account_id) => {
+  // Verificar si ya se han buscado los resúmenes de esta cuenta
+  if (accountSummaries.hasOwnProperty(account_id)) {
+    setSummary(accountSummaries[account_id]); // Usar los datos almacenados en el estado
+  } else {
+    const dataUser = {
+      account_id: account_id,
     };
-    fetch(`${API_NOGLAXMAN}/summary/account`, {
+    const resolve = await fetch(`${API_NOGLAXMAN}/summary/account`, {
       method: "POST",
-      body: JSON.stringify(dataAccount),
+      body: JSON.stringify(dataUser),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Baerer ${token}`,
       },
-    })
-    .then(setSummary)
+    });
+    const data = await resolve.json();
+    if (data) {
+      // Guardar los datos en el estado y en el estado de resúmenes de cuentas
+      setSummary(data);
+      setAccountSummaries((prevState) => ({
+        ...prevState,
+        [account_id]: data,
+      }));
+    }
+  }
+};
 
-  }, [accountId, token]);
+
+  useEffect(() => {
+    buscarCuentas();
+  }, []);
 
   return (
     <div
@@ -145,6 +126,7 @@ const Cliente = () => {
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
+                  onClick={() => buscarResumenes(ac.account_id)}
                 >
                   <Typography sx={{ fontWeight: "bold", color: "#9567a7" }}>
                     {ac.account_id}

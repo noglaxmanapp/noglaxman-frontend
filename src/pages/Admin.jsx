@@ -26,10 +26,20 @@ const Admin = () => {
   const [client, setClient] = useState();
   const [updateClient, setUpdateClient] = useState(false);
 
+  const [accountsLoaded, setAccountsLoaded] = useState([]);
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+    if (isExpanded && !accountsLoaded.includes(panel)) {
+      buscarCuentas(panel);
+      setAccountsLoaded((prevState) => {
+        const newState = [...prevState, panel];
+        console.log(newState);
+        return newState;
+      });
+    }
   };
-
+  
   useEffect(()=>{
     if (window.location.pathname === '/admin'){
       window.onpopstate = e => {
@@ -100,7 +110,42 @@ const Admin = () => {
     // eslint-disable-next-line
   }, []);
 
+
   const buscarCuentas = async (id) => {
+    if (accountsLoaded.includes(id)){
+      setAccountsLoaded((prevState) => {
+        const newState = [...prevState, id];
+        console.log(newState);
+        return newState;
+      });
+    }
+    else{
+      const dataUser = {
+        client_id: id,
+      };
+      const resolve = await fetch(`${API_NOGLAXMAN}/client/accounts`, {
+        method: "POST",
+        body: JSON.stringify(dataUser),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await resolve.json();
+      if (data) {
+        setAccounts((prevState) => ({
+          ...prevState,
+          [id]: data,
+        }));
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  const buscarCuentasCrud = async (id) => {
+   
     const dataUser = {
       client_id: id,
     };
@@ -114,9 +159,18 @@ const Admin = () => {
     });
     const data = await resolve.json();
     if (data) {
-      setAccounts(data);
+      setAccounts((prevState) => ({
+        ...prevState,
+          [id]: data,
+      }));
+      return true;
+    } else {
+      return false;
     }
+    
   };
+  
+  
 
   const deleteAccount = async (id) => {
     try{
@@ -145,7 +199,7 @@ const Admin = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await resolve.json();
+    await resolve.json();
   };
 
   const confirmDelete = async (id) => {
@@ -209,6 +263,8 @@ const Admin = () => {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     onClick={() => buscarCuentas(cliente.client_id)}
+                    aria-controls={`${cliente.client_id}-content`}
+                    id={`${cliente.client_id}-header`}
                   >
                     <Box
                       sx={{
@@ -251,17 +307,19 @@ const Admin = () => {
                       <>Cargando...</>
                     ) : (
                       accounts.length !== 0 ? (
-                      accounts.map((ac) => {
+                        accounts[cliente.client_id] &&
+                        accounts[cliente.client_id].map((ac) => {
                         return (
                           <DetailsAccount
                             key={ac.account_id}
                             ac={ac}
                             deleteAccount={deleteAccount}
-                            buscarCuentas={buscarCuentas}
+                            buscarCuentas={buscarCuentasCrud}
                             cliente_id={cliente.client_id}
                           />
                         );
-                      })) : (
+                      })
+                      ) : (
                       <Typography
                         align='center'
                         sx={{
@@ -399,7 +457,7 @@ const Admin = () => {
         open={openNewAccount}
         handleClose={handleCloseNewAccount}
         client={clientNewAccount}
-        buscarCuentas={buscarCuentas}
+        buscarCuentas={buscarCuentasCrud}
       />
       <FormCliente
         updateClient={updateClient}
