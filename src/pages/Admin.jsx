@@ -146,9 +146,6 @@ const Admin = () => {
       },
     });
     const data = await resolve.json();
-    if (data) {
-      console.log(data);
-    }
   };
 
   const confirmDelete = async (id) => {

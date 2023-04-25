@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { API_NOGLAXMAN } from '../utils/config';
+import { Typography } from '@mui/material';
 // import Cliente from '../pages/Cliente';
 // import useAuth from '../hooks/useAuth';
 
@@ -39,7 +40,7 @@ const RutaProtegida = () => {
   },[])
 
   if (loading){
-    return <div>Cargando...</div>;
+    return <div style={{width: '100%', height: '100vh', display:'flex', justifyContent:'center', alignItems:'center'}}> <Typography color='secondary' sx={{ fontWeight: 'bold', fontSize:'30px'}}>Cargando...</Typography> </div>;
   }
 
   if (!token || token === 'undefined'){

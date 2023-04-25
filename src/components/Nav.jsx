@@ -107,7 +107,6 @@ const Nav = () => {
                 }}
                 onChange={(e, value) => {
                   setValue(value);
-                  console.log(value);
                 }}
                 value={value === undefined ? 0 : value}
               >
