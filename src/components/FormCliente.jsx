@@ -70,7 +70,7 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
   const updateNewClient = async(newClient) => {
     
     try {
-      const resolve = await fetch(`https://noglaxman.onrender.com/client/${newClient.id}`,{
+      const resolve = await fetch(`${API_NOGLAXMAN}/client/${newClient.id}`,{
       method: 'PUT',
       body: JSON.stringify(newClient),
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},
@@ -87,8 +87,7 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
           backdrop: "rgba(0, 0, 0, 0.8)"
         })
       }
-    } catch (error) {
-        setLoading(false)
+    } catch(error) {
         Swal.fire({
           title: 'Error!',
           text: "No se pudo actualizar el cliente.",
@@ -120,6 +119,7 @@ function FormCliente({ updateClient, client, open, handleClose, getAllClient }) 
 
     if(updateClient){
       await updateNewClient(newClient)
+      setLoading(false)
       getAllClient()
       handleClose()
     }

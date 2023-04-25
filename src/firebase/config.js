@@ -25,8 +25,7 @@ const firebaseConfig = {
 // Initialize Firebase
 export const getFirebaseApp = () => {
   try {
-    const configHasValidity = Object.values(firebaseConfig).every(v => v);
-    if (configHasValidity) throw new Error("Error al obtener configuracion de Firebase App");
+    Object.values(firebaseConfig).every(v => v);
     const app = initializeApp(firebaseConfig);
     if (app) getAuth(app);
     return app;

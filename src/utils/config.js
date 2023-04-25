@@ -1,4 +1,4 @@
-export const API_NOGLAXMAN = `${process.env.REACT_APP_API_NOGLAXMAN_URL}:${process.env.REACT_APP_API_NOGLAXMAN_PORT}`
+export const API_NOGLAXMAN = process.env.REACT_APP_API_NOGLAXMAN_URL
 export const API_NOGLAXMAN_URL = process.env.REACT_APP_API_NOGLAXMAN_URL
 export const API_NOGLAXMAN_PORT = process.env.REACT_APP_API_NOGLAXMAN_PORT
 export const FIREBASE_API_KEY = process.env.REACT_APP_FIREBASE_API_KEY

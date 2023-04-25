@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { API_NOGLAXMAN } from '../utils/config';
 // import Cliente from '../pages/Cliente';
 // import useAuth from '../hooks/useAuth';
 
@@ -19,7 +20,7 @@ const RutaProtegida = () => {
         return
       }
       try {
-        const result = await fetch('https://noglaxman.onrender.com/client/role', {
+        const result = await fetch(`${API_NOGLAXMAN}/client/role`, {
         method: "POST",
         body: JSON.stringify({token:`${token}`}),
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`}
